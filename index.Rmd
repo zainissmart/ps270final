@@ -11,4 +11,18 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to the usage of emojis per ages, or maybe just how many distinct groups of emojis there are for emotion communication. Or maybe it will be something completely different idk
+I am interested in exploring what the relationship between "urban connectivity", or prevalance of public transportation and walkability and cost of living in United States counties. My tentative question "how does the connectivity of a city influence the cost of living?" My hypothesis is "cities with a high walkability score have a higher cost of living." My hypothesis is so because these communities are more desirable, and often are urban cities such as Chicago or New York City, which are known for their high prices. It will, however, be interesting to see if smaller cities that are walkable are the same way, so I might only include those in my analysis. I will merge two datasets-- one has counties and  urban connectivity measures such as public transportation scores, walkability scores as well as population metrics and accesibility metrics. The other dataset has counties and cost of living measures. Combining the two will allow me to make connections between walkability measures and cost of living. My explanatory variable would be walkability measures, and these are listed as scores 0-100, with 100 being very walkable. My outcome variable would be total cost which is also continuous. To support my hypothesis, I would have to see a strong positive correlation between these variables, and no other effects caused by extraneuous variables. If the correlation is weak or negative, my hypothesis would be disproved.
+
+
+
+```{r}
+library(tidyverse)
+read_csv("C:/Users/Zain/Desktop/ps270final/cost_of_living_us.csv")
+```
+
+```{r}
+read_csv("C:/Users/Zain/Desktop/ps270final/urban_connectivity.csv")
+```
+
+
+

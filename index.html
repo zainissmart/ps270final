@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1544,8 +1544,57 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring data related to the usage of emojis per ages, or maybe just how many distinct groups of emojis there are for emotion communication. Or maybe it will be something completely different idk</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>I am interested in exploring what the relationship between “urban connectivity”, or prevalance of public transportation and walkability and cost of living in United States counties. My tentative question “how does the connectivity of a city influence the cost of living?” My hypothesis is “cities with a high walkability score have a higher cost of living.” My hypothesis is so because these communities are more desirable, and often are urban cities such as Chicago or New York City, which are known for their high prices. It will, however, be interesting to see if smaller cities that are walkable are the same way, so I might only include those in my analysis. I will merge two datasets– one has counties and urban connectivity measures such as public transportation scores, walkability scores as well as population metrics and accesibility metrics. The other dataset has counties and cost of living measures. Combining the two will allow me to make connections between walkability measures and cost of living. My explanatory variable would be walkability measures, and these are listed as scores 0-100, with 100 being very walkable. My outcome variable would be total cost which is also continuous. To support my hypothesis, I would have to see a strong positive correlation between these variables, and no other effects caused by extraneuous variables. If the correlation is weak or negative, my hypothesis would be disproved.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"C:/Users/Zain/Desktop/ps270final/cost_of_living_us.csv"</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 31,430 × 15
+   case_id state isMetro areaname           county family_member_count
+     &lt;dbl&gt; &lt;chr&gt; &lt;lgl&gt;   &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt;              
+ 1       1 AL    TRUE    Montgomery, AL MSA Autau… 1p0c               
+ 2       1 AL    TRUE    Montgomery, AL MSA Autau… 1p1c               
+ 3       1 AL    TRUE    Montgomery, AL MSA Autau… 1p2c               
+ 4       1 AL    TRUE    Montgomery, AL MSA Autau… 1p3c               
+ 5       1 AL    TRUE    Montgomery, AL MSA Autau… 1p4c               
+ 6       1 AL    TRUE    Montgomery, AL MSA Autau… 2p0c               
+ 7       1 AL    TRUE    Montgomery, AL MSA Autau… 2p1c               
+ 8       1 AL    TRUE    Montgomery, AL MSA Autau… 2p2c               
+ 9       1 AL    TRUE    Montgomery, AL MSA Autau… 2p3c               
+10       1 AL    TRUE    Montgomery, AL MSA Autau… 2p4c               
+# ℹ 31,420 more rows
+# ℹ 9 more variables: housing_cost &lt;dbl&gt;, food_cost &lt;dbl&gt;,
+#   transportation_cost &lt;dbl&gt;, healthcare_cost &lt;dbl&gt;,
+#   other_necessities_cost &lt;dbl&gt;, childcare_cost &lt;dbl&gt;, taxes &lt;dbl&gt;,
+#   total_cost &lt;dbl&gt;, median_family_income &lt;dbl&gt;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"C:/Users/Zain/Desktop/ps270final/urban_connectivity.csv"</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 102 × 79
+    ...1 Place_name        City     State `Walk Score` `Transit Score`
+   &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;           &lt;dbl&gt;
+ 1     0 Los Angeles, CA   Los Ang… CA            68.6            52.9
+ 2     1 San Diego, CA     San Die… CA            53.3            37.3
+ 3     2 San Jose, CA      San Jose CA            50.5            40.1
+ 4     3 San Francisco, CA San Fra… CA            88.7            77.1
+ 5     4 Fresno, CA        Fresno   CA            46.6            33.1
+ 6     5 Sacramento, CA    Sacrame… CA            49              33.9
+ 7     6 Long Beach, CA    Long Be… CA            73.3            48.9
+ 8     7 Oakland, CA       Oakland  CA            75.3            56.6
+ 9     8 Bakersfield, CA   Bakersf… CA            37.3            24.6
+10     9 Anaheim, CA       Anaheim  CA            55.7            33.9
+# ℹ 92 more rows
+# ℹ 73 more variables: `Bike Score` &lt;dbl&gt;, Population_2021 &lt;dbl&gt;,
+#   Population_2022_Census &lt;dbl&gt;,
+#   City_Population_Stats_adjusted_land_area__acres_ &lt;dbl&gt;,
+#   City_Population_Stats_density__people_acre_ &lt;dbl&gt;,
+#   City_Population_Stats_density_classification &lt;chr&gt;,
+#   City_Population_Stats_2000_population &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
