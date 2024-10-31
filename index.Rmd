@@ -33,6 +33,7 @@ connectivity
 For my graph, I decided to examine the relationship between cities' population density scores and their walkability scores. 
 
 ```{r}
+graph <-
 connectivity |>
   ggplot(mapping = aes(x = City_Population_Stats_density__people_acre_,
                        y = `Walk Score`)) +
@@ -40,7 +41,7 @@ connectivity |>
   labs(x = "City Population Density",
        y = "City Walk Score",
        title = "Walk Score vs Population Density")
-  
+graph
 ```
 
 
