@@ -17,11 +17,30 @@ I am interested in exploring what the relationship between "urban connectivity",
 
 ```{r}
 library(tidyverse)
+cost_living <-
 read_csv("C:/Users/Zain/Desktop/ps270final/cost_of_living_us.csv")
+cost_living
 ```
 
 ```{r}
+connectivity <-
 read_csv("C:/Users/Zain/Desktop/ps270final/urban_connectivity.csv")
+connectivity
+```
+
+## Graph
+
+For my graph, I decided to examine the relationship between cities' population density scores and their walkability scores. 
+
+```{r}
+connectivity |>
+  ggplot(mapping = aes(x = City_Population_Stats_density__people_acre_,
+                       y = `Walk Score`)) +
+  geom_point(color = "dodgerblue") +
+  labs(x = "City Population Density",
+       y = "City Walk Score",
+       title = "Walk Score vs Population Density")
+  
 ```
 
 
