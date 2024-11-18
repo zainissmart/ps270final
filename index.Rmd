@@ -23,7 +23,7 @@ setwd("C:/Users/Zain/Desktop/ps270final")
 ```{r}
 coli <-
 read_csv("C:/Users/Zain/Desktop/ps270final/advisorsmith_cost_of_living_index.csv")
-cost_living 
+coli
   
 ```
 
