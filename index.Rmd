@@ -17,9 +17,14 @@ I am interested in exploring what the relationship between "urban connectivity",
 
 ```{r}
 library(tidyverse)
-cost_living <-
-read_csv("C:/Users/Zain/Desktop/ps270final/cost_of_living_us.csv")
-cost_living
+setwd("C:/Users/Zain/Desktop/ps270final")
+```
+
+```{r}
+coli <-
+read_csv("C:/Users/Zain/Desktop/ps270final/advisorsmith_cost_of_living_index.csv")
+cost_living 
+  
 ```
 
 ```{r}
@@ -43,6 +48,25 @@ connectivity |>
        title = "Walk Score vs Population Density")
 graph
 ```
+I realized I need a new dataset to measure cost of living, as my first one measured counties rather than cities. The new dataset is a relative measure, with a score of 100 meaning average cost of living in the United States. THe amount above or below is the % more/less expensive the city in question is to average.
+AdvisorSmith Cost of Living Index
 
+```{r}
+cities <- coli |>
+inner_join(connectivity)
+cities
+```
 
+To answer my question, I will assess the walk score of a city against its Cost of Living Index.
 
+```{r}
+cities |>
+  ggplot(aes(y = `Walk Score`,
+             x = `Cost of Living Index`,
+             color = State)) +
+  geom_point()
+```
+```{r}
+  lm(data = cities, `Walk Score` ~ `Cost of Living Index`)
+```
+One part of a city's connectivity is its walk score. It appears that the Cost of Living Index and Walk Score are positively correlated.
