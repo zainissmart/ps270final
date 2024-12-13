@@ -73,10 +73,14 @@ glimpse(cities)
 
 To visualize the spread of Cost of Living represented in the data, I have generated a boxplot.
 
+Finding the average Cost of Living.
+
 ```{r}
 cities |>
   summarize(avg_col = mean(`Cost of Living Index`)) 
 ```
+
+Generating the actual boxplot.
 
 ```{r}
 col_box <- cities |>
