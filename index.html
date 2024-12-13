@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/header-attrs-2.29/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/advisorsmith_cost_of_living_index.csv","data/urban_connectivity.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-10-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.29/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1543,132 +1543,214 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring what the relationship between “urban connectivity”, or prevalance of public transportation and walkability and cost of living in United States counties. My tentative question “how does the connectivity of a city influence the cost of living?” My hypothesis is “cities with a high walkability score have a higher cost of living.” My hypothesis is so because these communities are more desirable, and often are urban cities such as Chicago or New York City, which are known for their high prices. It will, however, be interesting to see if smaller cities that are walkable are the same way, so I might only include those in my analysis. I will merge two datasets– one has counties and urban connectivity measures such as public transportation scores, walkability scores as well as population metrics and accesibility metrics. The other dataset has counties and cost of living measures. Combining the two will allow me to make connections between walkability measures and cost of living. My explanatory variable would be walkability measures, and these are listed as scores 0-100, with 100 being very walkable. My outcome variable would be total cost which is also continuous. To support my hypothesis, I would have to see a strong positive correlation between these variables, and no other effects caused by extraneuous variables. If the correlation is weak or negative, my hypothesis would be disproved.</p>
+<h2 id="introduction">Introduction</h2>
+<p>There has been much discourse about the desirability of walkable and bikeable cities with good transit. The appeal of such cities transcends the fact that an individual does not have to own a car and manage the expenses associated with it. Cities where walking and biking are feasible transportation options can promote more healthy, active lifestyles than those where residents are resigned to spending hours each week driving to their destinations. Furthermore, cities with less cars have less pollution, and many individuals prefer the dense urban planning that often comes with more connected cities. While cities that are well connected are very desirable, many individuals still opt to live in car-dependent areas with weak walkability, bikeability, and public transportation options. While each person’s reasoning may be different, it is the trend that cities with more Urban Connectivity are more expensive. While this is an idea supported by cost of living trends, I decided to further investigate if Urban Connectivity was the reason for these Cost of Living Increases. I hypothesize that the higher Urban Connectivity a city has, the higher Cost of Living it will have.</p>
+<p>Below, I have loaded packages that may include necessary functions for my analysis.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='st'>"C:/Users/Zain/Desktop/ps270final"</span><span class='op'>)</span></span></code></pre>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/infer'>infer</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modelsummary.com'>modelsummary</a></span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
+<h2 id="data">Data</h2>
+<p>I merged two datasets to measure the relationship between the cost of living and urban connectivity of various cities in the United States. My independent variable is Urban Connectivity and my dependent variable is Cost of Living. This study follows a cross-sectional design as these datasets each contain data from one point in time.</p>
+<p>I found my first dataset, titled “U.S. Cities Urban Connectivity,” on Kaggle (Vivian Ellis, 2024. <a href="https://doi.org/10.34740/KAGGLE/DSV/8715704" class="uri">https://doi.org/10.34740/KAGGLE/DSV/8715704</a>). It contains data on various United States cities’ walkability, public transportation availability, and biking infrastructure. These are considered the factors that determine a city’s urban connectivity. These factors were measured through expert coding by walkscore.com. To understand the urban connectivity of a city as a whole, I will sum these factors to create a broad “Urban Connectivity Score”. This score will be my independent variable that I will measure against the Cost of Living Index.</p>
+<p>I sourced my second dataset, titled “AdvisorSmith Cost of Living Index” at <a href="https://advisorsmith.com/data/coli" class="uri">https://advisorsmith.com/data/coli</a>. This dataset contains the Cost of Living data for my study. AdvisorSmith created an index that describes a city’s cost of living in relation to the average cost of living in the United States. A score of 100 represents the average cost of living. A score of 125 represents a cost of living 25% higher than average. A score of 75 represents a cost of living 25% less than average. Thus, this variable is measured through expert coding. Cost of Living will be my dependent variable.</p>
+<p>Below is the code I used to load in the two datasets and merge them.
+Setting working directory.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='st'>"C:/Users/Zain/Desktop/ps270final"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>Loading in cost of living (COL) dataset.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>coli</span> <span class='op'>&lt;-</span></span>
-<span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"C:/Users/Zain/Desktop/ps270final/advisorsmith_cost_of_living_index.csv"</span><span class='op'>)</span></span>
-<span><span class='va'>coli</span></span></code></pre>
+<span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"data/advisorsmith_cost_of_living_index.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 510 × 3
-   City        State `Cost of Living Index`
-   &lt;chr&gt;       &lt;chr&gt;                  &lt;dbl&gt;
- 1 Abilene     TX                      89.1
- 2 Adrian      MI                      90.5
- 3 Akron       OH                      89.4
- 4 Alamogordo  NM                      85.8
- 5 Albany      GA                      87.3
- 6 Albany      OR                     105. 
- 7 Albany      NY                     100. 
- 8 Albertville AL                      90.9
- 9 Albuquerque NM                      92.9
-10 Alexandria  LA                      86.2
-# ℹ 500 more rows</code></pre>
 </div>
+<p>Loading in urban connectivity dataset.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>connectivity</span> <span class='op'>&lt;-</span></span>
-<span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"C:/Users/Zain/Desktop/ps270final/urban_connectivity.csv"</span><span class='op'>)</span></span>
-<span><span class='va'>connectivity</span></span></code></pre>
+<span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"data/urban_connectivity.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 102 × 79
-    ...1 Place_name        City     State `Walk Score` `Transit Score`
-   &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;           &lt;dbl&gt;
- 1     0 Los Angeles, CA   Los Ang… CA            68.6            52.9
- 2     1 San Diego, CA     San Die… CA            53.3            37.3
- 3     2 San Jose, CA      San Jose CA            50.5            40.1
- 4     3 San Francisco, CA San Fra… CA            88.7            77.1
- 5     4 Fresno, CA        Fresno   CA            46.6            33.1
- 6     5 Sacramento, CA    Sacrame… CA            49              33.9
- 7     6 Long Beach, CA    Long Be… CA            73.3            48.9
- 8     7 Oakland, CA       Oakland  CA            75.3            56.6
- 9     8 Bakersfield, CA   Bakersf… CA            37.3            24.6
-10     9 Anaheim, CA       Anaheim  CA            55.7            33.9
-# ℹ 92 more rows
-# ℹ 73 more variables: `Bike Score` &lt;dbl&gt;, Population_2021 &lt;dbl&gt;,
-#   Population_2022_Census &lt;dbl&gt;,
-#   City_Population_Stats_adjusted_land_area__acres_ &lt;dbl&gt;,
-#   City_Population_Stats_density__people_acre_ &lt;dbl&gt;,
-#   City_Population_Stats_density_classification &lt;chr&gt;,
-#   City_Population_Stats_2000_population &lt;dbl&gt;, …</code></pre>
 </div>
-<h2 id="graph">Graph</h2>
-<p>For my graph, I decided to examine the relationship between cities’ population density scores and their walkability scores.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>graph</span> <span class='op'>&lt;-</span></span>
-<span><span class='va'>connectivity</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>City_Population_Stats_density__people_acre_</span>,</span>
-<span>                       y <span class='op'>=</span> <span class='va'>`Walk Score`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"dodgerblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"City Population Density"</span>,</span>
-<span>       y <span class='op'>=</span> <span class='st'>"City Walk Score"</span>,</span>
-<span>       title <span class='op'>=</span> <span class='st'>"Walk Score vs Population Density"</span><span class='op'>)</span></span>
-<span><span class='va'>graph</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
-</div>
-<p>I realized I need a new dataset to measure cost of living, as my first one measured counties rather than cities. The new dataset is a relative measure, with a score of 100 meaning average cost of living in the United States. THe amount above or below is the % more/less expensive the city in question is to average.
-AdvisorSmith Cost of Living Index</p>
+<p>Merging datasets to have one with both COL and Urban Connectivity.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>cities</span> <span class='op'>&lt;-</span> <span class='va'>coli</span> <span class='op'>|&gt;</span></span>
-<span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>connectivity</span><span class='op'>)</span></span>
-<span><span class='va'>cities</span></span></code></pre>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>connectivity</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>City</span>, <span class='va'>State</span>, <span class='va'>`Cost of Living Index`</span>, <span class='va'>Place_name</span>, <span class='va'>`Walk Score`</span>, <span class='va'>`Transit Score`</span>, <span class='va'>`Bike Score`</span>, <span class='va'>Population_2022_Census</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 71 × 80
-   City     State `Cost of Living Index`  ...1 Place_name `Walk Score`
-   &lt;chr&gt;    &lt;chr&gt;                  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;
- 1 Albuque… NM                      92.9   100 Albuquerq…         42.6
- 2 Anchora… AK                     111.     98 Anchorage…         30.9
- 3 Atlanta  GA                     100.     40 Atlanta, …         47.7
- 4 Austin   TX                     107.     55 Austin, TX         41.7
- 5 Bakersf… CA                     103.      8 Bakersfie…         37.3
- 6 Baltimo… MD                     107      46 Baltimore…         64.3
- 7 Baton R… LA                      91.1    31 Baton Rou…         39.1
- 8 Boise C… ID                     100.     99 Boise, ID          38.5
- 9 Boston   MA                     133.     47 Boston, MA         82.8
-10 Buffalo  NY                      97.3    22 Buffalo, …         66.6
-# ℹ 61 more rows
-# ℹ 74 more variables: `Transit Score` &lt;dbl&gt;, `Bike Score` &lt;dbl&gt;,
-#   Population_2021 &lt;dbl&gt;, Population_2022_Census &lt;dbl&gt;,
-#   City_Population_Stats_adjusted_land_area__acres_ &lt;dbl&gt;,
-#   City_Population_Stats_density__people_acre_ &lt;dbl&gt;,
-#   City_Population_Stats_density_classification &lt;chr&gt;,
-#   City_Population_Stats_2000_population &lt;dbl&gt;, …</code></pre>
 </div>
-<p>To answer my question, I will assess the walk score of a city against its Cost of Living Index.</p>
+<p>A glimpse of the dataset.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>cities</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>Rows: 71
+Columns: 8
+$ City                   &lt;chr&gt; &quot;Albuquerque&quot;, &quot;Anchorage&quot;, &quot;Atlanta&quot;…
+$ State                  &lt;chr&gt; &quot;NM&quot;, &quot;AK&quot;, &quot;GA&quot;, &quot;TX&quot;, &quot;CA&quot;, &quot;MD&quot;, &quot;…
+$ `Cost of Living Index` &lt;dbl&gt; 92.9, 110.7, 100.3, 106.6, 102.9, 107…
+$ Place_name             &lt;chr&gt; &quot;Albuquerque, NM&quot;, &quot;Anchorage, AK&quot;, &quot;…
+$ `Walk Score`           &lt;dbl&gt; 42.6, 30.9, 47.7, 41.7, 37.3, 64.3, 3…
+$ `Transit Score`        &lt;dbl&gt; 28.6, 21.6, 43.7, 34.8, 24.6, 53.2, N…
+$ `Bike Score`           &lt;dbl&gt; 60.9, 51.8, 41.7, 54.0, 43.7, 53.4, 4…
+$ Population_2022_Census &lt;dbl&gt; 567242, 290509, 515426, 1003496, 4107…</code></pre>
+</div>
+<p>To visualize the spread of Cost of Living represented in the data, I have generated a boxplot.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>cities</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>`Walk Score`</span>,</span>
-<span>             x <span class='op'>=</span> <span class='va'>`Cost of Living Index`</span>,</span>
-<span>             color <span class='op'>=</span> <span class='va'>State</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>avg_col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>`Cost of Living Index`</span><span class='op'>)</span><span class='op'>)</span> </span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+<pre><code># A tibble: 1 × 1
+  avg_col
+    &lt;dbl&gt;
+1    104.</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span>  <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>cities</span>, <span class='va'>`Walk Score`</span> <span class='op'>~</span> <span class='va'>`Cost of Living Index`</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>col_box</span> <span class='op'>&lt;-</span> <span class='va'>cities</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Cost of Living Index`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fl'>103.6958</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span>, color <span class='op'>=</span> <span class='st'>"dodgerblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Spread of Costs of Living (COL)"</span>,</span>
+<span>       caption <span class='op'>=</span> <span class='st'>"Blue Dotted Line: Average COL"</span><span class='op'>)</span></span>
+<span><span class='va'>col_box</span></span></code></pre>
 </div>
-<pre><code>
-Call:
-lm(formula = `Walk Score` ~ `Cost of Living Index`, data = cities)
-
-Coefficients:
-           (Intercept)  `Cost of Living Index`  
-                4.1158                  0.4282  </code></pre>
+<p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
 </div>
-<p>One part of a city’s connectivity is its walk score. It appears that the Cost of Living Index and Walk Score are positively correlated.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>The sample has an median Cost of Living close the national average Cost of Living. The average Cost of living of the dataset is 3% higher than the national average.</p>
+<h2 id="results">Results</h2>
+<p>To compare Urban Connectivity to Cost of Living, rather than a component of Urban Connectivity, I need to sum the each city’s walk score, transit score, and bike score. Doing so will provide me a single value for each city that measures its overall connectivity.</p>
+<p>Creating Urban Connectivity variable (“Total Connectivity”)</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>cities</span> <span class='op'>&lt;-</span> <span class='va'>cities</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Total Connectivity"</span> <span class='op'>=</span> <span class='va'>`Walk Score`</span> <span class='op'>+</span> <span class='va'>`Transit Score`</span> <span class='op'>+</span> <span class='va'>`Bike Score`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>`Total Connectivity`</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>cities</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>Rows: 66
+Columns: 9
+$ City                   &lt;chr&gt; &quot;Albuquerque&quot;, &quot;Anchorage&quot;, &quot;Atlanta&quot;…
+$ State                  &lt;chr&gt; &quot;NM&quot;, &quot;AK&quot;, &quot;GA&quot;, &quot;TX&quot;, &quot;CA&quot;, &quot;MD&quot;, &quot;…
+$ `Cost of Living Index` &lt;dbl&gt; 92.9, 110.7, 100.3, 106.6, 102.9, 107…
+$ Place_name             &lt;chr&gt; &quot;Albuquerque, NM&quot;, &quot;Anchorage, AK&quot;, &quot;…
+$ `Walk Score`           &lt;dbl&gt; 42.6, 30.9, 47.7, 41.7, 37.3, 64.3, 3…
+$ `Transit Score`        &lt;dbl&gt; 28.6, 21.6, 43.7, 34.8, 24.6, 53.2, 2…
+$ `Bike Score`           &lt;dbl&gt; 60.9, 51.8, 41.7, 54.0, 43.7, 53.4, 6…
+$ Population_2022_Census &lt;dbl&gt; 567242, 290509, 515426, 1003496, 4107…
+$ `Total Connectivity`   &lt;dbl&gt; 132.1, 104.3, 133.1, 130.5, 105.6, 17…</code></pre>
+</div>
+<p>After removing the cities with missing Transit Scores, causing incomplete Total Connectivity scores, I am left with 66 cities from which I will conduct my analysis.</p>
+<p>First, I will create a scatterplot visualizing the correlation between Total Connectivity and Cost of Living.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>cities</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>`Cost of Living Index`</span>,</span>
+<span>             x <span class='op'>=</span> <span class='va'>`Total Connectivity`</span>,</span>
+<span>             color <span class='op'>=</span> <span class='va'>State</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> </span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<p>The scatterplot indicates a weak, but positive correlation between Total Connectivity and Cost of Living Index. This means that as the urban connectivity (i.e., walkability, bikeability, and transit options) of a city increases, so does its Cost of Living compared to the average Cost of Living in the United States. However, the correlation is relatively weak, so I will conduct a regression which includes a possible confounder, population size. Population size may influence the Cost of Living of a city because a higher population leads to increased demand for housing, food, and healthcare, all of which are factored into AdvisorSmith’s calculation for cost of living.</p>
+<p>Here is my regression, with Cost of Living as the outcome variable and Total Connectivity as the main predictor variable, with City Population (according to the 2022 census) as a potential confounding variable.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>scipen <span class='op'>=</span> <span class='fl'>999</span><span class='op'>)</span> <span class='co'>#disables scientific notation</span></span>
+<span><span class='va'>cities_reg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>cities</span>, <span class='va'>`Cost of Living Index`</span> <span class='op'>~</span> <span class='va'>`Total Connectivity`</span> <span class='op'>+</span> <span class='va'>Population_2022_Census</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>To find the p-value and represent the regression in a nice table, I will use model summary.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://modelsummary.com/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>cities_reg</span>,</span>
+<span>             statistic <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"s.e. = {std.error}"</span>,</span>
+<span>                           <span class='st'>"p = {p.value}"</span><span class='op'>)</span>,</span>
+<span>             gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>, <span class='st'>"adj.r.squared"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table style="width:56%;">
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><ol type="1">
+<li></li>
+</ol></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Intercept)</td>
+<td>71.790</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>s.e. = 7.437</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>p = &lt;0.001</td>
+</tr>
+<tr class="even">
+<td>Total Connectivity</td>
+<td>0.228</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>s.e. = 0.055</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>p = &lt;0.001</td>
+</tr>
+<tr class="odd">
+<td>Population_2022_Census</td>
+<td>0.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>s.e. = 0.000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>p = 0.473</td>
+</tr>
+<tr class="even">
+<td>Num.Obs.</td>
+<td>66</td>
+</tr>
+<tr class="odd">
+<td>R2</td>
+<td>0.278</td>
+</tr>
+<tr class="even">
+<td>R2 Adj.</td>
+<td>0.255</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The effect of Urban Connectivity on a city’s Cost of Living is significant. Because the p-value is extremely close to 0, we can reject a null hypothesis that a city’s Urban Connectivity has no effect on its Cost of Living at any alpha level. Therefore, we can interpret the effect as “for every 1-point increase in a city’s Total Urban Connectivty score, its Cost of Living becomes 0.22% higher compared to the national Cost of Living average. The population size does not represent a confounding variable to this effect.</p>
+<h2 id="conclusion">Conclusion</h2>
+<h1 id="results-1">Results</h1>
+<p>The regression indicates a significant effect of Urban Connectivity on Cost of Living. While the correlation is relatively weak, being only .228, my hypothesis that cities with higher levels of Urban Connectivity are more expensive is supported. The effect size (R2) indicates that 27.8% of the variance in cities Cost of Living can be explained by their Urban Connectivity.</p>
+<h1 id="limitations">Limitations</h1>
+<p>The connectivity data is relatively recent. The cost of living data is not, however, being from 2021. That said, it is a relative measure so relationships between cities should probably be the same. The population data is from 2022. Essentially, this study is limited by the close, yet different years in which the data was collected. Another limitation is the sample size. 66 cities were ultimately used for the analysis, and it is unknown if these cities constitute a representative spread of cities across the United States. However, they do establish a trend.</p>
+<h1 id="areas-of-improvement">Areas of improvement</h1>
+<p>I think the study would benefit from conducting more analyses of potential confounding variables, such as location, whether state or regionally. Additionally, as mentioned before, the study would benefit from having more cities represented in the dataset.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
