@@ -20,14 +20,21 @@ library(modelsummary)
 ```
 
 ## Data
+
+# Method
+
 I merged two datasets to measure the relationship between the cost of living and urban connectivity of various cities in the United States. My independent variable is Urban Connectivity and my dependent variable is Cost of Living. This study follows a cross-sectional design as these datasets each contain data from one point in time.
+
+# Urban Connectivity Dataset
 
 I found my first dataset, titled “U.S. Cities Urban Connectivity,” on Kaggle (Vivian Ellis, 2024. https://doi.org/10.34740/KAGGLE/DSV/8715704). It contains data on various United States cities’ walkability, public transportation availability, and biking infrastructure. These are considered the factors that determine a city’s urban connectivity. These factors were measured through expert coding by walkscore.com. To understand the urban connectivity of a city as a whole, I will sum these factors to create a broad “Urban Connectivity Score”. This score will be my independent variable that I will measure against the Cost of Living Index.
 
+# Cost of Living Dataset
+
 I sourced my second dataset, titled “AdvisorSmith Cost of Living Index” at https://advisorsmith.com/data/coli. This dataset contains the Cost of Living data for my study. AdvisorSmith created an index that describes a city’s cost of living in relation to the average cost of living in the United States. A score of 100 represents the average cost of living. A score of 125 represents a cost of living 25% higher than average. A score of 75 represents a cost of living 25% less than average. Thus, this variable is measured through expert coding. Cost of Living will be my dependent variable.
 
+# The code I used to load in the two datasets and merge them.
 
-Below is the code I used to load in the two datasets and merge them.
 Setting working directory.
 
 ```{r}
@@ -62,6 +69,8 @@ A glimpse of the dataset.
 glimpse(cities)
 ```
 
+# Visualizing Cost of Living
+
 To visualize the spread of Cost of Living represented in the data, I have generated a boxplot.
 
 ```{r}
@@ -95,6 +104,8 @@ glimpse(cities)
 
 After removing the cities with missing Transit Scores, causing incomplete Total Connectivity scores, I am left with 66 cities from which I will conduct my analysis.
 
+# Scatterplot
+
 First, I will create a scatterplot visualizing the correlation between Total Connectivity and Cost of Living.
 
 ```{r}
@@ -105,6 +116,8 @@ cities |>
   geom_point() 
 ```
 The scatterplot indicates a weak, but positive correlation between Total Connectivity and Cost of Living Index. This means that as the urban connectivity (i.e., walkability, bikeability, and transit options) of a city increases, so does its Cost of Living compared to the average Cost of Living in the United States. However, the correlation is relatively weak, so I will conduct a regression which includes a possible confounder, population size. Population size may influence the Cost of Living of a city because a higher population leads to increased demand for housing, food, and healthcare, all of which are factored into AdvisorSmith's calculation for cost of living.
+
+# Regression model
 
 Here is my regression, with Cost of Living as the outcome variable and Total Connectivity as the main predictor variable, with City Population (according to the 2022 census) as a potential confounding variable. 
 
@@ -137,3 +150,8 @@ The connectivity data is relatively recent. The cost of living data is not, howe
 
 I think the study would benefit from conducting more analyses of potential confounding variables, such as location, whether state or regionally. Additionally, as mentioned before, the study would benefit from having more cities represented in the dataset.
 
+## Sources Cited
+
+Mak, Adrian (2021). "AdvisorSmith City Cost of Living Index". https://advisorsmith.com/data/coli
+
+Ellis, Vivian (2024). "US Cities Urban Connectivity". Version 5. https://doi.org/10.34740/KAGGLE/DSV/8715704
