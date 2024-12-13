@@ -31,7 +31,7 @@ I found my first dataset, titled “U.S. Cities Urban Connectivity,” on Kaggle
 
 # Cost of Living Dataset
 
-I sourced my second dataset, titled “AdvisorSmith Cost of Living Index” at https://advisorsmith.com/data/coli. This dataset contains the Cost of Living data for my study. AdvisorSmith created an index that describes a city’s cost of living in relation to the average cost of living in the United States. A score of 100 represents the average cost of living. A score of 125 represents a cost of living 25% higher than average. A score of 75 represents a cost of living 25% less than average. Thus, this variable is measured through expert coding. Cost of Living will be my dependent variable.
+I sourced my second dataset, titled “AdvisorSmith Cost of Living Index” on AdvisorSmith (Adrian Mak, 2021. https://advisorsmith.com/data/coli). This dataset contains the Cost of Living data for my study. AdvisorSmith created an index that describes a city’s cost of living in relation to the average cost of living in the United States. A score of 100 represents the average cost of living. A score of 125 represents a cost of living 25% higher than average. A score of 75 represents a cost of living 25% less than average. Thus, this variable is measured through expert coding. Cost of Living will be my dependent variable.
 
 # The code I used to load in the two datasets and merge them.
 
@@ -138,6 +138,7 @@ modelsummary(cities_reg,
                            "p = {p.value}"),
              gof_map = c("nobs", "r.squared", "adj.r.squared"))
 ```
+
 The effect of Urban Connectivity on a city's Cost of Living is significant. Because the p-value is extremely close to 0, we can reject a null hypothesis that a city's Urban Connectivity has no effect on its Cost of Living at any alpha level. Therefore, we can interpret the effect as "for every 1-point increase in a city's Total Urban Connectivty score, its Cost of Living becomes 0.22% higher compared to the national Cost of Living average. The population size does not represent a confounding variable to this effect.
 
 ## Conclusion
