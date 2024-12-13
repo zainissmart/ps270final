@@ -1587,7 +1587,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>cities</span> <span class='op'>&lt;-</span> <span class='va'>coli</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>connectivity</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>City</span>, <span class='va'>State</span>, <span class='va'>`Cost of Living Index`</span>, <span class='va'>Place_name</span>, <span class='va'>`Walk Score`</span>, <span class='va'>`Transit Score`</span>, <span class='va'>`Bike Score`</span>, <span class='va'>Population_2022_Census</span><span class='op'>)</span></span></code></pre>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>City</span>, <span class='va'>State</span>, <span class='va'>`Cost of Living Index`</span>, <span class='va'>Place_name</span>,</span>
+<span>         <span class='va'>`Walk Score`</span>, <span class='va'>`Transit Score`</span>, <span class='va'>`Bike Score`</span>, <span class='va'>Population_2022_Census</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <p>A glimpse of the dataset.</p>
@@ -1635,7 +1636,7 @@ $ Population_2022_Census &lt;dbl&gt; 567242, 290509, 515426, 1003496, 4107…</c
 <p>The sample has an median Cost of Living close the national average Cost of Living. The average Cost of living of the dataset is 3% higher than the national average.</p>
 <h2 id="results">Results</h2>
 <p>To compare Urban Connectivity to Cost of Living, rather than a component of Urban Connectivity, I need to sum the each city’s walk score, transit score, and bike score. Doing so will provide me a single value for each city that measures its overall connectivity.</p>
-<p>Creating Urban Connectivity variable (“Total Connectivity”)</p>
+<p>Creating Urban Connectivity variable (“Total Connectivity”).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>cities</span> <span class='op'>&lt;-</span> <span class='va'>cities</span> <span class='op'>|&gt;</span></span>

@@ -60,7 +60,8 @@ Merging datasets to have one with both COL and Urban Connectivity.
 ```{r}
 cities <- coli |>
   inner_join(connectivity) |>
-  select(City, State, `Cost of Living Index`, Place_name, `Walk Score`, `Transit Score`, `Bike Score`, Population_2022_Census)
+  select(City, State, `Cost of Living Index`, Place_name,
+         `Walk Score`, `Transit Score`, `Bike Score`, Population_2022_Census)
 ```
 
 A glimpse of the dataset.
@@ -97,7 +98,7 @@ The sample has an median Cost of Living close the national average Cost of Livin
 ## Results
 To compare  Urban Connectivity to Cost of Living, rather than a component of Urban Connectivity, I need to sum the each city's walk score, transit score, and bike score. Doing so will provide me a single value for each city that measures its overall connectivity.
 
-Creating Urban Connectivity variable ("Total Connectivity")
+Creating Urban Connectivity variable ("Total Connectivity").
 
 ```{r}
 cities <- cities |>
