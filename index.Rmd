@@ -116,9 +116,11 @@ First, I will create a scatterplot visualizing the correlation between Total Con
 ```{r}
 cities |>
   ggplot(aes(y = `Cost of Living Index`,
-             x = `Total Connectivity`,
-             color = State)) +
-  geom_point() 
+             x = `Total Connectivity`)) +
+  geom_point(mapping = aes(color = State), alpha = 0.6) +
+  labs(title = "Cost of Living vs Total Connectivity",
+       subtitle = "Cities in the United States",
+       caption = "Data from Mak (2021) and Ellis (2024)")
 ```
 The scatterplot indicates a weak, but positive correlation between Total Connectivity and Cost of Living Index. This means that as the urban connectivity (i.e., walkability, bikeability, and transit options) of a city increases, so does its Cost of Living compared to the average Cost of Living in the United States. However, the correlation is relatively weak, so I will conduct a regression which includes a possible confounder, population size. Population size may influence the Cost of Living of a city because a higher population leads to increased demand for housing, food, and healthcare, all of which are factored into AdvisorSmith's calculation for cost of living.
 
